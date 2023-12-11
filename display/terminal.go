@@ -3,13 +3,14 @@ package display
 import (
 	"bufio"
 	"fmt"
-	"github.com/equalframework/cli-console-go/parser"
-	"github.com/equalframework/cli-console-go/syscalls"
 	"os"
 	"sort"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/equalframework/cli-console-go/parser"
+	"github.com/equalframework/cli-console-go/syscalls"
 
 	"golang.org/x/exp/slices"
 	"golang.org/x/term"
@@ -69,7 +70,7 @@ type Displayer struct {
 
 
 func (d *Displayer) RefreshSize() (hasChanged bool) {
-	width,height,err := term.GetSize(0)
+	width,height,err := term.GetSize(int(os.Stdout.Fd()))
 	if err != nil {
 		fmt.Fprintln(os.Stderr,"Failed to get terminal size : "+err.Error())
 		os.Exit(1)
