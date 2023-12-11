@@ -3,8 +3,8 @@ package display
 import (
 	"bufio"
 	"fmt"
-	"github/f7ed0/logger-cli_workbench/parser"
-	"github/f7ed0/logger-cli_workbench/syscalls"
+	"github.com/equalframework/cli-console-go/parser"
+	"github.com/equalframework/cli-console-go/syscalls"
 	"os"
 	"sort"
 	"strconv"

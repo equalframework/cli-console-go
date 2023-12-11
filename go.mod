@@ -1,4 +1,4 @@
-module github/f7ed0/logger-cli_workbench
+module github.com/equalframework/cli-console-go
 
 go 1.20
 

@@ -8,8 +8,8 @@ import (
 	"github.com/eiannone/keyboard"
 	"golang.org/x/term"
 
-	"github/f7ed0/logger-cli_workbench/display"
-	"github/f7ed0/logger-cli_workbench/syscalls"
+	"github.com/equalframework/cli-console-go/display"
+	"github.com/equalframework/cli-console-go/syscalls"
 )
 
 func main() {
