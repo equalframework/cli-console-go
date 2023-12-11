@@ -14,7 +14,11 @@ import (
 
 func main() {
 
-	if !term.IsTerminal(0) {
+	fd := int(os.Stdin.Fd())
+
+	fmt.Println(fd)
+
+	if !term.IsTerminal(fd) {
 		fmt.Println("Please launch this cli in a terminal.")
 	}
 	
