@@ -299,7 +299,7 @@ func (d *Displayer) PrintStep1(clearance int,show *string) int {
 	for i := len(keys)-1 ; i >= 0 && count - d.CurrentSkip[0] < d.H - clearance ; i-- {
 		arr := (*(*d.data)[int64(keys[i])])
 		scanned_keys := []string{}
-		for len(scanned_keys) < len(arr) && count - d.CurrentSkip[0] < d.H - clearance {
+		for len(scanned_keys) < len(arr) /*&& count - d.CurrentSkip[0] < d.H - clearance*/ {
 			bestKey := ""
 			bestMtime := 0
 			for key,item := range arr {
@@ -344,7 +344,7 @@ func (d *Displayer) PrintStep1(clearance int,show *string) int {
 			count ++
 		}
 	}
-	for i := len(toPrint)-1 ; i >= 0 ; i-- {
+	for i := clamp(0,d.H - clearance-1,len(toPrint)-1) ; i >= 0; i-- {
 		*show += fmt.Sprint(toPrint[i])
 	}
 	return count - d.CurrentSkip[0]

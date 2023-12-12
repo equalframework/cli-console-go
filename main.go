@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/eiannone/keyboard"
@@ -14,9 +15,10 @@ import (
 
 func main() {
 
-	fd := int(os.Stdin.Fd())
+	var rr int = 45
+	var err error
 
-	fmt.Println(fd)
+	fd := int(os.Stdin.Fd())
 
 	if !term.IsTerminal(fd) {
 		fmt.Println("Please launch this cli in a terminal.")
@@ -29,8 +31,35 @@ func main() {
 		fmt.Fprintf(os.Stderr,"You need to give the equal log file in cli parameter.")
 		os.Exit(1)
 	}
+	if os.Args[1] == "-h" || os.Args[1] == "--help" {
+		showHelp()
+		os.Exit(0)
+	}
 	disper := display.NewDisplayer(os.Args[1])
 	disper.ReadContent()
+	if len(os.Args) >= 3 {
+		for i := 2 ; i < len(os.Args) ; i++ {
+			if os.Args[i] == "-rt" || os.Args[i] == "--refresh-time" {
+				if len(os.Args) > i+1 {
+					i++
+					rr,err = strconv.Atoi(os.Args[i])
+					if err != nil {
+						fmt.Println("-rt or --refresh-time need to be followed by an integer.")
+						showHelp()
+						os.Exit(1)
+					}
+				} else {
+					fmt.Println("-rt or --refresh-time need to be followed by an integer.")
+					showHelp()
+					os.Exit(1)
+				}
+			}
+			if os.Args[i] == "-h" || os.Args[i] == "--help" {
+				showHelp()
+				os.Exit(0)
+			}
+		}
+	}
 	keysEvents,err := keyboard.GetKeys(10)
 	if err != nil {
 		panic(err)
@@ -122,7 +151,15 @@ func main() {
 			}
 			fmt.Println()
 		}
-		time.Sleep(30*time.Millisecond)
+		time.Sleep(time.Duration(rr)*time.Millisecond)
 	}
 	
+}
+
+func showHelp() {
+	fmt.Println("Usage : logger [eQual log file location] [args]")
+	fmt.Println("--------------------------- Args ------------------------------")
+	fmt.Println(" -h\t\t\t\tshow this message")
+	fmt.Println(" -rt [x] | --refresh-time [x]\tset the refresh time to x ms ")
+	fmt.Println("---------------------------------------------------------------")
 }
